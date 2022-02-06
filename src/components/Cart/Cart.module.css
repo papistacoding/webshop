@@ -1,0 +1,30 @@
+.cart {
+  max-width: 30rem;
+  background-color: #313131;
+  color: white;
+}
+
+.cart h2 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+}
+
+.cart ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.btn {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  border-radius: 6px;
+  background-color: transparent;
+  color: #1a8ed1;
+  border: 1px solid #1a8ed1;
+  margin: 0.5rem;
+}
+.couponInput {
+  padding: 0.2rem;
+  margin: 0.5rem;
+}

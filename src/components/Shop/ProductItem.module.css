@@ -1,0 +1,49 @@
+.item h3 {
+  margin: 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.item header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.price {
+  border-radius: 30px;
+  padding: 0.15rem 1.5rem;
+  background-color: #3a3a3a;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.item p {
+  color: crimson;
+  text-align: end;
+  margin-right: 1rem;
+  animation-name: rotate;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  font-weight: bold;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+  33% {
+    transform: skew(10deg);
+  }
+  66% {
+    transform: skew(-10deg);
+  }
+  99%{
+    transform: skew(0deg);
+    transform: scale(1)
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
