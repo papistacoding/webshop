@@ -3,8 +3,8 @@ you need to install all dependencies first.
 1. Download files
 1. Open code editor
 2. Navigate to src folder
-3. Open terminal and write npm install
-4. After all dependencies are downlaoded write npm star to run the app
+3. Open terminal and write "npm install"
+4. After all dependencies are downlaoded write "npm start" to run the app
 
 
 Getting Started with Create React App
