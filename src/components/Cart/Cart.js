@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { cartActions } from '../../store/cart-slice';
@@ -12,10 +12,12 @@ import Coupons from './Coupons'
 
 
 const Cart = (props) => {
-  const dispatch = useDispatch(cartActions)
+  const dispatch = useDispatch()
   const couponInput = useRef("")
   const cart = useSelector((state) => state.cart)
   const navigate = useNavigate();
+  const [couponIsError, setCouponIsError] = useState(false)
+  const [couponIsMixable, setCouponIsMixable] = useState(true)
 
   const cartItems = cart.items
   const totalAmount = cart.totalAmount
@@ -24,7 +26,9 @@ const Cart = (props) => {
   const addCouponHandler = () =>{
     
     if(couponInput.current.value === "20%OFF"){
-      
+      if(cart.coupons.couponsList.length > 0){
+        setCouponIsMixable(false)
+      }
       dispatch(cartActions.addCoupon({        
         couponName: couponInput.current.value,
         couponMixable : false,
@@ -34,6 +38,10 @@ const Cart = (props) => {
       }))
     }
     if(couponInput.current.value === "5%OFF"){
+      if(cart.coupons.couponMixable === false){
+        setCouponIsMixable(false)
+      }
+
       dispatch(cartActions.addCoupon({        
         couponName: couponInput.current.value,
         couponMixable : true,
@@ -43,7 +51,9 @@ const Cart = (props) => {
       }))
     }
     if(couponInput.current.value === "20EUROFF"){
-      
+      if(cart.coupons.couponMixable === false){
+        setCouponIsMixable(false)
+      }
       dispatch(cartActions.addCoupon({        
         couponName: couponInput.current.value,
         couponMixable : true,
@@ -51,17 +61,27 @@ const Cart = (props) => {
         discountAmount: 20,
         discountPercentage: 0
       }))
-    
-    }   
+    } 
+    if(couponInput.current.value !== "20EUROFF" && couponInput.current.value !== "5%OFF" && couponInput.current.value !== "20%OFF"){
+      setCouponIsError(true)
+    }
+    if(cart)
     couponInput.current.value =""
-
-
   }
   const onRemoveCoupon = (id)=>{         // LIFTING THE STATE UP KNOWLEDGE
     dispatch(cartActions.removeCoupon(id))
   }
   const orderHandler = ()=>{
+    if(cart.totalAmount < 0 ){
+      alert("you must ad someting in the cart to proceed")
+      return
+    }
+    
     if(cart.items.length !== 0) navigate("/order")
+  }
+  const inputFocusHandler = ()=>{
+    setCouponIsError(false)
+    setCouponIsMixable(true)
   }
 
 
@@ -82,11 +102,15 @@ const Cart = (props) => {
               price: item.price,
             }}
           />
+          
         ))}
       </ul>
       {coupons.couponsList.map(coupon =><Coupons name = {coupon.couponName}key={coupon.id} id={coupon.id} onRemove = {onRemoveCoupon}></Coupons>)}
-      <input ref={couponInput} className={classes.couponInput} placeholder="Enter Coupon"></input>
+      <input onFocus={inputFocusHandler} ref={couponInput} className={classes.couponInput} placeholder="Enter Coupon"></input>
+      
       <button onClick={addCouponHandler} className={classes.btn} >Apply</button>
+      {couponIsError && <span className={classes.error}>Invalid coupon</span>}
+      {!couponIsMixable && <span className={classes.error}>Coupon that you've entered cannot be mixed with other coupons</span>}
       <div>
         <button  onClick={orderHandler} className={classes.btn}>Order</button>
       </div>
