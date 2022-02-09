@@ -17,7 +17,7 @@ export const fetchCartData = () => {
       return data;
     };
 
-    try {
+    try {/*
       const cartData = await fetchData();
       dispatch(
         cartActions.replaceCart({
@@ -27,8 +27,8 @@ export const fetchCartData = () => {
           coupons : cartData.coupons
           
         })
-      );
-    } catch (error) {
+      );*/
+    }  catch (error) {
       dispatch(
         uiActions.showNotification({
           status: 'error',
@@ -92,7 +92,8 @@ export const sendCartData = (cart) => {
     }
   };
 };
-export const deleteCartData = ()=>{
+export const deleteCartData2 = ()=>{
+ 
   return async (dispatch) => {
         
 const response = await fetch(

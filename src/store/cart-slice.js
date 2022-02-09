@@ -16,14 +16,15 @@ const cartSlice = createSlice({
   },
   reducers: {
     replaceCart(state, action) {
-      state.totalQuantity = action.payload.totalQuantity;
+      console.log("asd");
+    /*  state.totalQuantity = action.payload.totalQuantity;
       state.items = action.payload.items;
       state.totalAmount = action.payload.totalAmount;
       state.coupons = action.payload.coupons;
-      if(!state.coupons.couponsList) state.coupons.couponsList = [];
-    
+      if(!state.coupons.couponsList) state.coupons.couponsList = []; */
     },
     addItemToCart(state, action) {
+    
       const newItem = action.payload;
       const existingItem = state.items.find((item) => item.id === newItem.id);
       state.totalQuantity++;
@@ -74,7 +75,10 @@ const cartSlice = createSlice({
       if (existingItem.quantity === 1) {
         state.items = state.items.filter((item) => item.id !== id);
         countTotalPrice()
-        state.totalAmount = (newTotalAmount - state.coupons.totalDiscountAmount) * state.coupons.totalDiscountPercentage
+        state.totalAmount = (newTotalAmount - state.coupons.totalDiscountAmount) * state.coupons.totalDiscountPercentage;
+        if(state.totalAmount < 0){
+          state.totalAmount = 0;
+        }
       } else {
         if(existingItem.name ==="Motion Sensor" && existingItem.quantity % 3 === 0){
           existingItem.totalPrice = existingItem.totalPrice - 15.02;        
@@ -88,6 +92,9 @@ const cartSlice = createSlice({
         countTotalPrice()
         existingItem.quantity--;
         state.totalAmount = (newTotalAmount - state.coupons.totalDiscountAmount) * state.coupons.totalDiscountPercentage
+        if(state.totalAmount < 0){
+          state.totalAmount = 0;
+        }
       }
     },
     addCoupon(state, action){
@@ -113,14 +120,20 @@ const cartSlice = createSlice({
         state.coupons.couponsList.push(newCoupon)
         state.coupons.totalDiscountPercentage -= newCoupon.discountPercentage
       }
-      else if(newCoupon.couponName === "20EUROFF" && state.coupons.couponMixable && state.totalAmount >= 20){   //COUPON ONLY APLIABLE IF THERE'S MORE THAN 20€ IN TOTAL CART
+      else if(newCoupon.couponName === "20EUROFF" && state.coupons.couponMixable){  
+        if(state.totalAmount = 0) {
+          
+        }
         state.coupons.couponMixable = newCoupon.couponMixable;
         state.coupons.couponsList.push(newCoupon)
         state.coupons.totalDiscountAmount += 20;  
       }
         countTotalPrice();
         state.totalAmount = (newTotalAmount - state.coupons.totalDiscountAmount) * state.coupons.totalDiscountPercentage
-      
+        if(state.totalAmount < 0){
+          state.totalAmount = 0
+        }
+        
     },
   
     removeCoupon(state, action){        // THIS TIME WORKING WITH ID FOR FUN
@@ -145,6 +158,16 @@ const cartSlice = createSlice({
       countTotalPrice()
       state.totalAmount = (newTotalAmount - state.coupons.totalDiscountAmount) * state.coupons.totalDiscountPercentage
       state.coupons.couponMixable = true;  // IN CASE COUPON WAS NOT MIXABLE
+    },
+    removeState(state, action){
+      state.items = [];
+      state.totalQuantity =  0;
+      state.changed = false;
+      state.totalAmount = 0;
+      state.coupons.couponsList = [];
+      state.coupons.couponMixable = true;
+      state.coupons.totalDiscountAmount = 0;
+      state.coupons.totalDiscountPercentage = 1;
     }
   }
 });
