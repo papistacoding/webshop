@@ -23,3 +23,7 @@ h2{
     text-align: center;
     border: solid 1px black;
 }
+.btn {
+    display: block;
+    margin: 0 auto;
+}
