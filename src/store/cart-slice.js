@@ -175,6 +175,7 @@ const cartSlice = createSlice({
       state.coupons.couponMixable = true;
       state.coupons.totalDiscountAmount = 0;
       state.coupons.totalDiscountPercentage = 1;
+      state.quantityDiscount = 0;
     }
   }
 });
