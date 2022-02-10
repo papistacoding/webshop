@@ -27,3 +27,6 @@ h2{
     display: block;
     margin: 0 auto;
 }
+.discount {
+    padding-left: 40px;
+}

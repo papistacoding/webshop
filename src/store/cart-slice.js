@@ -7,6 +7,7 @@ const cartSlice = createSlice({
     totalQuantity: 0,
     changed: false,
     totalAmount: 0,
+    quantityDiscount: 0,
     coupons: {
       couponsList: [],
       couponMixable: true,
@@ -50,9 +51,13 @@ const cartSlice = createSlice({
         existingItem.quantity++;
         if(existingItem.name ==="Motion Sensor" && existingItem.quantity % 3 === 0){
           existingItem.totalPrice = existingItem.totalPrice + 15.02;
+          state.quantityDiscount += 15.02;
+          
         }
         else if(existingItem.name ==="Smoke Sensor" && existingItem.quantity % 2 ===0){
           existingItem.totalPrice = existingItem.totalPrice + 15.01;
+          state.quantityDiscount += 15.01;
+
         }
         else{
           existingItem.totalPrice = existingItem.totalPrice + newItem.price;
@@ -81,10 +86,12 @@ const cartSlice = createSlice({
         }
       } else {
         if(existingItem.name ==="Motion Sensor" && existingItem.quantity % 3 === 0){
-          existingItem.totalPrice = existingItem.totalPrice - 15.02;        
+          existingItem.totalPrice = existingItem.totalPrice - 15.02;
+          state.quantityDiscount -= 15.02;        
         }
         else if(existingItem.name ==="Smoke Sensor" && existingItem.quantity % 2 ===0){
           existingItem.totalPrice = existingItem.totalPrice - 15.01;
+          state.quantityDiscount -= 15.01;    
         }
         else{
         existingItem.totalPrice = existingItem.totalPrice - existingItem.price;        

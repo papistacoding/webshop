@@ -34,7 +34,8 @@ const Complete = () => {
                 <div className={classes.items}> 
                     {cart.items.map(item => <div key={Math.random()}><p>{item.name}</p> <p>{item.quantity}</p> <p>{item.price}€</p> <p>{item.totalPrice.toFixed(2)}€</p></div>)}  
                 </div>
-                <ul>Coupons aplied: {cart.coupons.couponsList.map(coupon =><li key={coupon.id}>{coupon.couponName} </li>)}</ul>
+                {cart.quantityDiscount > 0 && <span className={classes.discount}>Quantitiy discount: {cart.quantityDiscount.toFixed(2)}€</span>}
+                {cart.coupons.couponsList.length > 0  &&<ul>Coupons aplied: {cart.coupons.couponsList.map(coupon =><li key={coupon.id}>{coupon.couponName} </li>)}</ul>}
                 <h2>Total Price: {cart.totalAmount.toFixed(2)}€</h2>
             </div>
             <button className={classes.btn} onClick={buttonHandler}>Continue shopping</button>
