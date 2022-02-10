@@ -26,7 +26,7 @@ const ProductItem = (props) => {
       <Card>
         <header>
           <h3>{title}</h3>
-          <div className={classes.price}>${price}</div>         
+          <div className={classes.price}>{price}€</div>         
         </header>
         {promotion && <p className={classes.promotion}>{promotion}</p>}
         <div className={classes.actions}>

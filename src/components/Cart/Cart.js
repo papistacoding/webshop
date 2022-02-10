@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { cartActions } from '../../store/cart-slice';
+import { uiActions } from '../../store/ui-slice';
 
 
 import Card from '../UI/Card';
@@ -84,37 +85,41 @@ const Cart = (props) => {
     setCouponIsMixable(true)
   }
 
-
+  const closeModal = ()=>{
+    dispatch(uiActions.toggle())
+  }
 
   return (
-    <Card className={classes.cart}>
-      
-      <h2>Total: {totalAmount.toFixed(2)}€</h2>
-      <ul>
-        {cartItems.map((item) => (
-          <CartItem
-            key={item.id}
-            item={{
-              id: item.id,
-              title: item.name,
-              quantity: item.quantity,
-              total: item.totalPrice,
-              price: item.price,
-            }}
-          />
+    <div  className={classes.background}>
+      <Card className={classes.cart} >
+          <h2>Total: {totalAmount.toFixed(2)}€</h2>
+          <ul>
+            {cartItems.map((item) => (
+              <CartItem
+                key={item.id}
+                item={{
+                  id: item.id,
+                  title: item.name,
+                  quantity: item.quantity,
+                  total: item.totalPrice,
+                  price: item.price,
+                }}
+              />
+              
+            ))}
+          </ul>
+          {coupons.couponsList.map(coupon =><Coupons name = {coupon.couponName}key={coupon.id} id={coupon.id} onRemove = {onRemoveCoupon}></Coupons>)}
+          <input onFocus={inputFocusHandler} ref={couponInput} className={classes.couponInput} placeholder="Enter Coupon"></input>
           
-        ))}
-      </ul>
-      {coupons.couponsList.map(coupon =><Coupons name = {coupon.couponName}key={coupon.id} id={coupon.id} onRemove = {onRemoveCoupon}></Coupons>)}
-      <input onFocus={inputFocusHandler} ref={couponInput} className={classes.couponInput} placeholder="Enter Coupon"></input>
-      
-      <button onClick={addCouponHandler} className={classes.btn} >Apply</button>
-      {couponIsError && <span className={classes.error}>Invalid coupon</span>}
-      {!couponIsMixable && <span className={classes.error}>Coupon that you've entered cannot be mixed with other coupons</span>}
-      <div>
-        <button  onClick={orderHandler} className={classes.btn}>Order</button>
-      </div>
-    </Card>
+          <button onClick={addCouponHandler} className={classes.btn} >Apply</button>
+          {couponIsError && <span className={classes.error}>Invalid coupon</span>}
+          {!couponIsMixable && <span className={classes.error}>Coupon that you've entered cannot be mixed with other coupons</span>}
+          <div>
+            <button  onClick={orderHandler} className={classes.btn}>Order</button>
+            <button onClick={closeModal} className={classes.close}>X</button>
+          </div>
+      </Card>
+    </div>
   );
 };
 

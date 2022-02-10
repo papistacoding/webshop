@@ -45,8 +45,8 @@ function App() {
           message={notification.message}
         />
       )}
+      {showCart && <Cart />}
       <Layout>
-        {showCart && <Cart />}
         <Products />
       </Layout>
       </>}/>
