@@ -6,8 +6,7 @@
   left: 0;
   right: 0;
   margin: auto;
-  z-index: 9999999;
-  opacity: 100%;
+  z-index: 2;
   transform: translateY(-50%);
   top: 50%;
 }
